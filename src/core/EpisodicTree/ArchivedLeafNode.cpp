@@ -1,7 +1,8 @@
 #include "mementar/core/EpisodicTree/ArchivedLeafNode.h"
 
 #include <sstream>
-#include <experimental/filesystem>
+
+#include "mementar/cpp_compat/filesystem.hpp"
 
 #include "mementar/core/utility/Display.h"
 
@@ -277,11 +278,11 @@ int ArchivedLeafNode::getKeyIndex(const time_t& key)
 void ArchivedLeafNode::loadStoredData()
 {
   Display::Info("Load archived files:");
-  size_t nb_file = std::distance(std::experimental::filesystem::directory_iterator(directory_), std::experimental::filesystem::directory_iterator{});
+  size_t nb_file = std::distance(filesystem::directory_iterator(directory_), filesystem::directory_iterator{});
   size_t cpt_file = 0;
   Display::Percent(0);
 
-  for(const auto& entry : std::experimental::filesystem::directory_iterator(directory_))
+  for(const auto& entry : filesystem::directory_iterator(directory_))
   {
     std::string complete_dir = entry.path();
     std::string dir = complete_dir.substr(directory_.size());
