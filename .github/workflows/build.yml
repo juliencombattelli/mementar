@@ -11,9 +11,7 @@ jobs:
         os: [ubuntu-18.04, ubuntu-16.04]
     steps:
     - uses: actions/checkout@v1
-    - name: prepare
-      run: mkdir build && cd build
     - name: configure
-      run: cmake ..
+      run: cmake -B ./build 
     - name: build
-      run: cmake --build .
+      run: cmake --build ./build
