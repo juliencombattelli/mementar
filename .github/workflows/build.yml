@@ -12,6 +12,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: configure
-      run: cmake -B ./build 
+      run: cmake -S . -B ./build 
     - name: build
       run: cmake --build ./build
