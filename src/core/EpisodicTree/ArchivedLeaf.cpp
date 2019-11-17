@@ -1,6 +1,7 @@
 #include <vector>
 #include <regex>
-#include <experimental/filesystem>
+
+#include "mementar/cpp_compat/filesystem.hpp"
 
 #include "mementar/core/EpisodicTree/ArchivedLeaf.h"
 
@@ -47,7 +48,7 @@ ArchivedLeaf::ArchivedLeaf(CompressedLeafNode* tree, size_t nb, const std::strin
     if(i >= tree->compressed_childs_.size())
       break;
 
-    std::experimental::filesystem::remove(tree->compressed_childs_[i].getDirectory() + ".mlz");
+    filesystem::remove(tree->compressed_childs_[i].getDirectory() + ".mlz");
   }
 }
 
