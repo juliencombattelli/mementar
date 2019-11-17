@@ -1,14 +1,21 @@
-# CMake 3.11 is needed for proper C++17 support and for better IMPORTED targets support
+# CMake 3.11 brings a lot of interesting features we need for this project:
+#   - proper C++17 support
+#   - better IMPORTED targets support
+#   - FetchContent module
 cmake_minimum_required(VERSION 3.11)
 project(mementar LANGUAGES CXX)
 
+# Set local module files search path
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
+# Import installed modules
 find_package(Threads)
 find_package(Filesystem COMPONENTS Final Experimental)
 
-# mementar library
+# Import external CMake project sources
+include(external/fmt.cmake)
 
+# mementar library
 add_library(mementar 
   ${PROJECT_SOURCE_DIR}/src/core/archiving_compressing/archiving/Archive.cpp
   ${PROJECT_SOURCE_DIR}/src/core/archiving_compressing/archiving/Header.cpp
@@ -36,6 +43,8 @@ target_link_libraries(mementar
     Threads::Threads
     std::filesystem
     std::filesystem
+  PRIVATE
+    fmt::fmt
 )
 
 # Tests for mementar library
