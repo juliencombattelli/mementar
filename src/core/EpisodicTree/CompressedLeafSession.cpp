@@ -1,6 +1,7 @@
 #include "mementar/core/EpisodicTree/CompressedLeafSession.h"
 
 #include <regex>
+#include <sstream>
 
 #include "mementar/core/archiving_compressing/compressing/LzUncompress.h"
 

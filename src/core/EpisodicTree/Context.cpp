@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <sstream>
 
 #include "mementar/core/utility/Display.h"
 

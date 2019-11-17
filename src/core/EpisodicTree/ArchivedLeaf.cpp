@@ -1,5 +1,6 @@
 #include <vector>
 #include <regex>
+#include <sstream>
 
 #include "mementar/cpp_compat/filesystem.hpp"
 
