@@ -342,7 +342,12 @@ bool CompressedLeafNode::loadStoredData()
 
   for(const auto& entry : filesystem::directory_iterator(directory_))
   {
-    std::string complete_dir = entry.path();
+    // std::filesystem::path to std::string conversion is platform-dependent:
+    //   it needs std::string on POSIX and std::wstring on Windows. Futhermore,
+    //   the directory separator change between operating systems.
+    // To solve this, we force the conversion to std::string ('/' is used as 
+    //   directory separator).
+    std::string complete_dir = entry.path().generic_string();
     std::string dir = complete_dir.substr(directory_.size());
     if(dir[0] == '/')
       dir.erase(dir.begin());
