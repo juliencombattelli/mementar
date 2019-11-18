@@ -3,7 +3,6 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <ctime>
-#include <unistd.h>
 
 #include "mementar/core/Btree/Btree.h"
 #include "mementar/core/EpisodicTree/ArchivedLeafNode.h"
