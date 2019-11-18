@@ -1,5 +1,6 @@
 #include "mementar/core/archiving_compressing/compressing/LzCompress.h"
 
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 
