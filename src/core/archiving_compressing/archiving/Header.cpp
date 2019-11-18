@@ -3,32 +3,28 @@
 #include "mementar/core/archiving_compressing/binaryManagement/BitFileGenerator.h"
 #include "mementar/core/archiving_compressing/binaryManagement/BitFileGetter.h"
 
+#include <fmt/format.h>
+
+#include <sstream>
+#include <string>
+
 namespace mementar
 {
 
 std::string Header::toString()
 {
-  std::string res;
-  std::string tmp;
-  tmp.resize(100);
-  sprintf(const_cast<char*>(tmp.c_str()), "%-50s | %-10s | %-10s\n", "file name", "size", "offset");
-  res += tmp;
-  tmp = std::string(50+3+10+3+10, '=');
-  res += tmp + "\n";
-  tmp.resize(100);
-  sprintf(const_cast<char*>(tmp.c_str()), "%-50s | %10d | %10d\n", description_file_.name_.c_str(), (int)description_file_.size_, (int)description_file_.offset_);
-  res += tmp;
-  tmp.resize(100);
-  sprintf(const_cast<char*>(tmp.c_str()), "%-50s | %-10s | %-10s\n", "", "", "");
-  res += tmp;
-  for(const auto& file : input_files_)
+  fmt::memory_buffer out;
+
+  fmt::format_to(out, FMT_STRING("{:<50} | {:<10} | {:<10}\n"), "file name", "size", "offset");
+  fmt::format_to(out, FMT_STRING("{}\n"), std::string{50+3+10+3+10, '='});
+  fmt::format_to(out, FMT_STRING("{:<50} | {:10} | {:10}\n"), description_file_.name_, description_file_.size_, description_file_.offset_);
+  fmt::format_to(out, FMT_STRING("{:<50} | {:<10} | {:<10}\n"), "", "", "");
+  for (const auto& file : input_files_)
   {
-    tmp.resize(100);
-    sprintf(const_cast<char*>(tmp.c_str()), "%-50s | %10d | %10d\n", file.name_.c_str(), (int)file.size_, (int)file.offset_);
-    res += tmp;
+    fmt::format_to(out, FMT_STRING("{:<50} | {:10} | {:10}\n"), file.name_, file.size_, file.offset_);
   }
 
-  return res;
+  return fmt::to_string(out);
 }
 
 size_t Header::endodedSize()
