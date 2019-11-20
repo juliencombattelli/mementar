@@ -13,7 +13,7 @@ find_package(Threads)
 find_package(Filesystem COMPONENTS Final Experimental)
 
 # Import external CMake project sources
-include(external/fmt.cmake)
+add_subdirectory(external)
 
 # mementar library
 add_library(mementar 
