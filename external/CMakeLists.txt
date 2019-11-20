@@ -1,11 +1,29 @@
+if(${CMAKE_VERSION} VERSION_LESS 3.14)
+  macro(FetchContent_MakeAvailable)
+    foreach(contentName IN ITEMS ${ARGV})
+        string(TOLOWER ${contentName} contentNameLower)
+        FetchContent_GetProperties(${contentName})
+        if(NOT ${contentNameLower}_POPULATED)
+          FetchContent_Populate(${contentName})
+          # Only try to call add_subdirectory() if the populated content
+          # can be treated that way. Protecting the call with the check
+          # allows this function to be used for projects that just want
+          # to ensure the content exists, such as to provide content at
+          # a known location.
+          if(EXISTS ${${contentNameLower}_SOURCE_DIR}/CMakeLists.txt)
+              add_subdirectory(${${contentNameLower}_SOURCE_DIR}
+                               ${${contentNameLower}_BINARY_DIR})
+          endif()
+        endif()
+    endforeach()
+  endmacro()
+endif()
+
 include(FetchContent)
 
-# Fetch fmt git repo and place it into ${SOURCE_DIR}
-FetchContent_Populate(fmt
+FetchContent_Declare(fmt
     GIT_REPOSITORY https://github.com/fmtlib/fmt.git
     GIT_TAG        6.0.0
-    SOURCE_DIR     ${PROJECT_SOURCE_DIR}/external/fmt
 )
 
-# Add fmt CMake project
-add_subdirectory(${PROJECT_SOURCE_DIR}/external/fmt)
+FetchContent_MakeAvailable(fmt)
